@@ -11,3 +11,4 @@
 /test_output
 /docs/_build
 /foo        
+futures/download/*

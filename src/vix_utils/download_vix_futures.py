@@ -103,7 +103,7 @@ _futures_month_numbers=list(range(1,len(_futures_month_strings)+1))
 _futures_months_and_codes = list(zip(_futures_months_code,_futures_month_strings,_futures_month_numbers))
 
 def start_year()->int:
-        return 2013
+        return 2020
 def stop_year()->int:
     now = dt.datetime.now()
     return now.year+2
@@ -126,6 +126,7 @@ def years_and_weeks():
     return itertools.product( range(2011,end_year),range(1,53))
 
 def generate_settlement_url(date_str:str) -> str:
+    # return  f"https://cdn.cboe.com/data/us/futures/market_statistics/historical_data/VXM/VXM_{date_str}.csv"
     return  f"https://cdn.cboe.com/data/us/futures/market_statistics/historical_data/VX/VX_{date_str}.csv"
 
 def generate_monthly_url_date(year:int,month:int) -> tuple[str,str]:
@@ -211,7 +212,9 @@ class VXFuturesDownloader:
         month:        
         """
         url,expiry=generate_monthly_url_date(year,month)
+        print(url, expiry)
         save_path=self.futures_data_cache_monthly
+        # save_fn=f"{expiry}.m_{month}.CFE_VXM_{year}.csv"        
         save_fn=f"{expiry}.m_{month}.CFE_VX_{year}.csv"        
         return await self.download_one_future(save_path,url,expiry,fn=save_fn)
     
@@ -243,6 +246,7 @@ class VXFuturesDownloader:
         save_path=self.futures_data_cache_weekly
         year=date.year
 
+        # save_fn=f"{expiry}.w_.CFE_VXM_{year}.csv"
         save_fn=f"{expiry}.w_.CFE_VX_{year}.csv"
         await self.download_one_future(save_path,url,expiry,save_fn)
  
